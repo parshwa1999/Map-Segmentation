@@ -1,3 +1,3 @@
 # Map-Segmentation
 
-###U-net, Dense-net Implemented
+### U-net, Dense-net, PSPNet Implemented
