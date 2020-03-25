@@ -2,8 +2,9 @@
 
 ### U-net, Dense-net, PSPNet Implemented
 
-#### Install python virtual enviorment
+### Install python virtual enviorment
 
+**$ sudo apt install python3-pip**
 **$ sudo apt install python3-venv**
 
 ##### Create virtual enviorment naming Map-Segmentation
