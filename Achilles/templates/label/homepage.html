@@ -1,0 +1,19 @@
+{% extends "label/base.html" %}
+
+{% block login_logout_block %}
+<form action={% url 'logout' %} method="GET">
+    <button class="btn btn-outline-danger btn-lg" style="float: right; ">Log out</button>
+</form>
+{% endblock %}
+
+{% block body_block %}
+
+
+{% if user != None %}
+<div class="alert alert-success text-centre" role="alert">
+  <p>Welcome {{ user }}<p>
+</div>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en" dir="ltr">
+<link rel="stylesheet" href={% static "css/bootstrap.css" %}>
+<script src={% static "js/bootstrap.min.js" %}></script>
+
+<script type="text/javascript">
+     function preventBack() {
+         window.history.forward();
+     }
+     setTimeout("preventBack()", 0);
+     window.onunload = function () { null };
+ </script>
+
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+
+  <body class="text-centre" data-gr-c-s-loaded="true">
+    <div class="col-xs-1 text-center">
+    {% if incorrect != None %}
+    <div class="alert alert-danger" role="alert">
+      <strong>{{ incorrect }}</strong>
+    </div>
+    {% endif %}
+
+    <form class="form-signin" action={% url 'label:user_login' %} method="post">
+    {% csrf_token %}
+      <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
+
+      <input class="form-control" type="text" name="username" placeholder="Username" required="" autofocus="">
+
+      <input class="form-control" type="password" name="password" placeholder="Password">
+
+      <button class="btn btn-lg btn-primary" type="submit" value="Login">Log In</button>
+    </form>
+
+</div>
+  </body>
+</html>

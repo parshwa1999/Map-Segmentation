@@ -1,0 +1,14 @@
+{% extends "label/base.html" %}
+
+{% block body_block %}
+
+
+<script type = "text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>
+<h1>You have logout sucessfully</h1>
+
+
+{% endblock %}
