@@ -3,7 +3,7 @@
 <html lang="en" dir="ltr">
 <link rel="stylesheet" href={% static "css/bootstrap.css" %}>
 <script src = {% static 'js/jquery-3.4.1.min.js' %}></script>
-<script src = {% static "js/bootstrap.min.js" %}></script>
+<script src = {% static "js/bootstrap.js" %}></script>
 
 <script type="text/javascript">
      function preventBack() {
@@ -27,15 +27,15 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="btn btn-dark btn-lg" href="#">Development Tracker<span class="sr-only" style="margin-left:20px;">(current)</span></a>
+              <a class="btn btn-dark btn-lg" href = {% url 'label:developmentTracker' %} >Development Tracker<span class="sr-only" style="margin-left:20px;">(current)</span></a>
             </li>
             &nbsp;
             <li class="nav-item active">
-              <a class="btn btn-dark btn-lg" href="#">QGIS Support<span class="sr-only">(current)</span></a>
+              <a class="btn btn-dark btn-lg" href = {% url 'label:qgisSupport' %} >QGIS Support<span class="sr-only">(current)</span></a>
             </li>
             &nbsp;
             <li class="nav-item active">
-              <a class="btn btn-dark btn-lg" href="#">LabelMe Support<span class="sr-only">(current)</span></a>
+              <a class="btn btn-dark btn-lg" href={% url 'label:labelmeSupport' %} >LabelMe Support<span class="sr-only">(current)</span></a>
             </li>
            </div>
           </ul>

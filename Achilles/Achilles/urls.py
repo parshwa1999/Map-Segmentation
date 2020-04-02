@@ -22,4 +22,5 @@ urlpatterns = [
     path('label/', include(('label.urls', 'label'), namespace='label')),
     path('admin/', admin.site.urls),
     re_path(r'^logout/', views.user_logout, name='logout'),
+    #path('', include(('label.urls', 'label'), namespace='label')),
 ]

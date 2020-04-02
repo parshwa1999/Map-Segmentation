@@ -8,9 +8,27 @@ from django.contrib.auth.decorators import login_required
 
 def index(request):
     if request.session.has_key('username'):
-        return render(request, "label/homepage.html")        
+        return render(request, "label/homepage.html")
     else:
         return render(request, "label/index.html")
+
+def development_tracker(request):
+    if request.session.has_key('username'):
+        return render(request, "label/development_tracker_app.html")
+    else:
+        return render(request, "label/development_tracker_about.html")
+
+def qgis_support(request):
+    if request.session.has_key('username'):
+        return render(request, "label/qgis_support_app.html")
+    else:
+        return render(request, "label/qgis_support_about.html")
+
+def labelme_support(request):
+    if request.session.has_key('username'):
+        return render(request, "label/labelme_support_app.html")
+    else:
+        return render(request, "label/labelme_support_about.html")
 
 @login_required
 def homepage_welcome(request, username):
@@ -19,7 +37,7 @@ def homepage_welcome(request, username):
 
 @login_required
 def homepage(request):
-    return render(request, "label/homepage.html")
+    return render(request, "label/homepage.html", {'user' : "$"})
 
 @login_required
 def user_logout(request):

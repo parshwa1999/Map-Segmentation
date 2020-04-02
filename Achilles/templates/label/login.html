@@ -3,7 +3,8 @@
 
 <html lang="en" dir="ltr">
 <link rel="stylesheet" href={% static "css/bootstrap.css" %}>
-<script src={% static "js/bootstrap.min.js" %}></script>
+<link rel="stylesheet" href={% static "css/login.css" %}>
+<script src={% static "js/bootstrap.js" %}></script>
 
 <script type="text/javascript">
      function preventBack() {
@@ -26,16 +27,38 @@
     </div>
     {% endif %}
 
-    <form class="form-signin" action={% url 'label:user_login' %} method="post">
-    {% csrf_token %}
-      <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
+    <div class="limiter">
+  		<div class="container-login100">
+  			<div class="wrap-login100 p-t-50 p-b-90">
+  				<form class="login100-form validate-form flex-sb flex-w" action={% url 'label:user_login' %} method="post">
+            {% csrf_token %}
+            <a class="" href={% url 'label:index' %}>  <img src={% static "/images/logo.png" %} width="160" height="90" style="  display: block;
+  margin-left: 115px; margin-right: 115px;"></a>
 
-      <input class="form-control" type="text" name="username" placeholder="Username" required="" autofocus="">
+            <span class="login100-form-title p-b-51">
 
-      <input class="form-control" type="password" name="password" placeholder="Password">
+  					</span>
 
-      <button class="btn btn-lg btn-primary" type="submit" value="Login">Log In</button>
-    </form>
+  					<div class="wrap-input100 validate-input m-b-16 " data-validate = "Username is required">
+  						<input class="input100" type="text" name="username" placeholder="Username">
+  						<span class="focus-input100"></span>
+  					</div>
+
+  					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+  						<input class="input100" type="password" name="password" placeholder="Password">
+  						<span class="focus-input100"></span>
+  					</div>
+
+  					<div class="container-login100-form-btn m-t-17 ">
+  						<button class="btn-danger login100-form-btn " type="submit" value="Login">
+  							Login
+  						</button>
+  					</div>
+
+  				</form>
+  			</div>
+  		</div>
+  	</div>
 
 </div>
   </body>
