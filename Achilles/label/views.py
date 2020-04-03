@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 # Create your views here.
@@ -6,11 +7,31 @@ from django.contrib.auth import authenticate,login,logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
 def index(request):
     if request.session.has_key('username'):
         return render(request, "label/homepage.html")
     else:
         return render(request, "label/index.html")
+
+def qgis_response(request):
+    if request.method == "POST" and request.FILES['file']:
+        myfile = request.FILES['file']
+        fs = FileSystemStorage()
+        if fs.exists(request.user.username + ".png"):
+            fs.delete(request.user.username + ".png")
+        filename = fs.save(request.user.username + ".png", myfile)
+        uploaded_file_url = fs.url(filename)
+
+        if myfile.name[len(myfile.name)-3:len(myfile.name)] != "png":
+            return render(request, "label/qgis_support_app.html",{'is_not_file_valid':True})
+
+        return render(request, "label/qgis_support_response.html", {'image_url': uploaded_file_url })
+
+    return render(request, "label/qgis_support_app.html")
+
 
 def development_tracker(request):
     if request.session.has_key('username'):
@@ -32,7 +53,6 @@ def labelme_support(request):
 
 @login_required
 def homepage_welcome(request, username):
-    print(username)
     return render(request, "label/homepage.html", {'user' : username})
 
 @login_required

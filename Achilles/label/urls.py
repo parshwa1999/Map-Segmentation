@@ -8,4 +8,5 @@ urlpatterns = [
     path('development_tracker/',  views.development_tracker, name='developmentTracker'),
     path('qgis_support/',  views.qgis_support, name='qgisSupport'),
     path('labelme_support/',  views.labelme_support, name='labelmeSupport'),
+    path('qgis_support_response/',  views.qgis_response, name='qgisResponse'),
 ]
