@@ -1,0 +1,23 @@
+{% extends "label/base.html" %}
+
+{% block login_logout_block %}
+<form action={% url 'logout' %} method="GET">
+    <button class="btn btn-outline-danger btn-lg" style="float: right; ">Log out</button>
+</form>
+{% endblock %}
+
+
+{% block body_block %}
+<p>UPLOADED SUCESSFULLY  {{ image_url }}</p>
+
+<img src="{{ image_url }}" alt="" height="500" width="500">
+
+<form class="" action={% url 'label:getCsv' %} method="GET">
+  <button class="btn btn-dark btn-lg" type="submit"> Download CSV </button>
+</form>
+
+<form class="" action={% url 'label:getPng' %} method="GET">
+  <button class="btn btn-dark btn-lg" type="submit"> Download Image </button>
+</form>
+
+{% endblock %}

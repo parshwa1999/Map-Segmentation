@@ -19,20 +19,14 @@ image, contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX
 print("Number of Contours found = " + str(len(contours))) 
 
 
-
 f = open("Road1.csv","w+")
 f.write("id,geom\n")
 for i in range(len(contours)):
-    contours[i] = np.squeeze(contours[i], axis = 1)
-    f.write(str(i) + ",\"POLYGON ((")
-    
-    for j in contours[i]:
-        f.write(str(j[0]) + " " + str(j[1]*-1) + ", ")
+  contours[i] = np.squeeze(contours[i], axis = 1)
+  f.write(str(i) + ",\"POLYGON ((")
+  for j in contours[i]:
+    f.write(str(j[0]) + " " + str(j[1]*-1) + ", ")
     f.write(str(contours[i][0][0]) + " " + str(contours[i][0][1]*-1) + "))\"\n")
-    #print(str(contours[i][0][0]) + " " + str(contours[i][0][1]*-1) + "))\"\n")
-    #tmp = np.zeros((len(contours[i]),1,1), dtype="int32")
-    #polygon.append(list(np.squeeze(np.append(contours[i], tmp, axis=2), axis=1)))
-    #del tmp
 
 f.close()
 

@@ -1,6 +1,6 @@
 import os
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect, FileResponse
 # Create your views here.
 
 from django.contrib.auth import authenticate,login,logout
@@ -10,28 +10,71 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
+import label.processing as ps
+
+Unet_model, graph = ps.load_Unet(os.path.join(settings.BASE_DIR, "static", "models", "Massachusetts_Roads_and_Building_Dataset"),
+                os.path.join(settings.BASE_DIR, "static", "weights", "Massachusetts_Roads_and_Building_Dataset"))
+
+
 def index(request):
     if request.session.has_key('username'):
         return render(request, "label/homepage.html")
     else:
         return render(request, "label/index.html")
 
+def labelme_response(request):
+    if request.method == "POST" and len(request.FILES) != 0:
+        if request.FILES['file']:
+            myfile = request.FILES['file']
+            fs = FileSystemStorage()
+            if fs.exists(request.user.username + ".png"):
+                fs.delete(request.user.username + ".png")
+            filename = fs.save(request.user.username + ".png", myfile)
+            uploaded_file_url = fs.url(filename)
+
+            if myfile.name[len(myfile.name)-3:len(myfile.name)] != "png":
+                return render(request, 'label/labelme_support_app.html',{'is_not_file_valid':True})
+            ps.save_road_image(Unet_model, graph,
+                os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
+                os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
+            ps.save_road_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),
+                os.path.join(settings.MEDIA_ROOT, request.user.username + ".csv"))
+            return render(request, "label/labelme_support_response.html", {'image_url': "/media/" + request.user.username + "_mask.png"})
+    #print(request.META.get('HTTP_REFERER'))
+    print("ASAS_________________________")
+    return redirect(request.META.get('HTTP_REFERER'))
+
 def qgis_response(request):
-    if request.method == "POST" and request.FILES['file']:
-        myfile = request.FILES['file']
-        fs = FileSystemStorage()
-        if fs.exists(request.user.username + ".png"):
-            fs.delete(request.user.username + ".png")
-        filename = fs.save(request.user.username + ".png", myfile)
-        uploaded_file_url = fs.url(filename)
+    if request.method == "POST" and len(request.FILES) != 0:
+        if request.FILES['file']:
+            myfile = request.FILES['file']
+            fs = FileSystemStorage()
+            if fs.exists(request.user.username + ".png"):
+                fs.delete(request.user.username + ".png")
+            filename = fs.save(request.user.username + ".png", myfile)
+            uploaded_file_url = fs.url(filename)
 
-        if myfile.name[len(myfile.name)-3:len(myfile.name)] != "png":
-            return render(request, "label/qgis_support_app.html",{'is_not_file_valid':True})
+            if myfile.name[len(myfile.name)-3:len(myfile.name)] != "png":
+                return render(request, 'label/qgis_support_app.html',{'is_not_file_valid':True})
 
-        return render(request, "label/qgis_support_response.html", {'image_url': uploaded_file_url })
+            ps.save_road_image(Unet_model, graph,
+                os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
+                os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
+            ps.save_road_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),
+                os.path.join(settings.MEDIA_ROOT, request.user.username + ".csv"))
+            return render(request, "label/qgis_support_response.html", {'image_url': "/media/" + request.user.username + "_mask.png"})
+    #print(request.META.get('HTTP_REFERER'))
+    return redirect(request.META.get('HTTP_REFERER'))
 
-    return render(request, "label/qgis_support_app.html")
+@login_required
+def get_csv(request):
+    img = open(os.path.join(settings.BASE_DIR, 'media', request.user.username + '.csv'), 'rb')
+    return FileResponse(img)
 
+@login_required
+def get_mask(request):
+    img = open(os.path.join(settings.BASE_DIR, 'media', request.user.username + '_mask.png'), 'rb')
+    return FileResponse(img)
 
 def development_tracker(request):
     if request.session.has_key('username'):

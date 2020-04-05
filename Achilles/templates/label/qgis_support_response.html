@@ -12,5 +12,12 @@
 
 <img src="{{ image_url }}" alt="" height="500" width="500">
 
+<form class="" action={% url 'label:getCsv' %} method="GET">
+  <button class="btn btn-dark btn-lg" type="submit"> Download CSV </button>
+</form>
+
+<form class="" action={% url 'label:getPng' %} method="GET">
+  <button class="btn btn-dark btn-lg" type="submit"> Download Image </button>
+</form>
 
 {% endblock %}

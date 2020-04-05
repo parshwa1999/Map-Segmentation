@@ -15,10 +15,13 @@
 </div>
 {% endif %}
 
-<form action={% url 'label:qgisResponse' %} method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  <input name="file" type="file"/>
-  <button type="submit">Upload</button>
-</form>
+<div class="container">
+  <form action={% url 'label:qgisResponse' %} method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input class="btn btn-dark" name="file" type="file"/>
+    <br><br>
+    <button class="btn btn-dark active" type="submit">Upload</button>
+  </form>
+</div>
 
 {% endblock %}

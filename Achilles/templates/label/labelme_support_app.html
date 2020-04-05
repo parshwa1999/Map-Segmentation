@@ -8,7 +8,13 @@
 
 
 {% block body_block %}
-<p>labelme Core</p>
-
+<div class="container">
+  <form action={% url 'label:labelmeResponse' %} method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input class="btn btn-dark" name="file" type="file"/>
+    <br><br>
+    <button class="btn btn-dark active" type="submit">Upload</button>
+  </form>
+</div>
 
 {% endblock %}
