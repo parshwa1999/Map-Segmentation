@@ -8,7 +8,26 @@
 
 
 {% block body_block %}
-<p>DEVLOPMENT TRACKER Core</p>
+{% if is_not_file_valid %}
+<div class="alert alert-danger">
+  <strong> Uploaded file is invalid </strong>
+</div>
+{% endif %}
+
+<div class="container">
+  <form action={% url 'label:developmentTrackerResponse' %} method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Past</label>
+    <br>
+    <input class="btn btn-dark" name="file1" type="file"/>
+    <br><br>
+    <label>Present</label>
+    <br>
+    <input class="btn btn-dark" name="file2" type="file"/>
+    <br><br>
+    <button class="btn btn-dark active" type="submit">Upload</button>
+  </form>
+</div>
 
 
 {% endblock %}

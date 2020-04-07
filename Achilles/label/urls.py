@@ -15,5 +15,7 @@ urlpatterns = [
     path('qgis_support_response/',  views.qgis_response, name='qgisResponse'),
     path('get_csv/', views.get_csv, name='getCsv'),
     path('get_mask/', views.get_mask, name='getPng'),
+    path('get_json/', views.get_json, name='getJson'),
     path('labelme_support_response/',  views.labelme_response, name='labelmeResponse'),
+    path('development_tracker_response/',  views.development_tracker_response, name='developmentTrackerResponse'),
 ]

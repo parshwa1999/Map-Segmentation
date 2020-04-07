@@ -8,16 +8,20 @@
 
 
 {% block body_block %}
-<p>UPLOADED SUCESSFULLY  {{ image_url }}</p>
 
-<img src="{{ image_url }}" alt="" height="500" width="500">
+<div class="container jumbotron" style="display: block;
+                                          margin-left: auto;
+                                          margin-right: auto;
+                                          width: 50%;">
+  <img src="{{ image_url }}" alt="" height="500" width="500"> <br><br>
 
-<form class="" action={% url 'label:getCsv' %} method="GET">
-  <button class="btn btn-dark btn-lg" type="submit"> Download CSV </button>
-</form>
+  <form class="" action={% url 'label:getJson' %} method="GET">
+    <button class="btn btn-dark btn-lg" type="submit" style="margin:auto; display:block;"> Download Json </button>
+  </form> <br>
 
-<form class="" action={% url 'label:getPng' %} method="GET">
-  <button class="btn btn-dark btn-lg" type="submit"> Download Image </button>
-</form>
+  <form class="" action={% url 'label:getPng' %} method="GET">
+    <button class="btn btn-dark btn-lg" type="submit" style="margin:auto; display:block;"> Download Image </button>
+  </form>
+</div>
 
 {% endblock %}

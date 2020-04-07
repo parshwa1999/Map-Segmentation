@@ -18,8 +18,14 @@
 <div class="container">
   <form action={% url 'label:qgisResponse' %} method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <input class="btn btn-dark" name="file" type="file"/>
-    <br><br>
+    <select name="type" class="btn btn-dark">
+      <option value="road">Roads</option>
+      <option value="building">Buildings</option>
+      <option value="car">Cars</option>
+    </select> <br><br>
+
+    <input class="btn btn-dark" name="file" type="file"/> <br><br>
+
     <button class="btn btn-dark active" type="submit">Upload</button>
   </form>
 </div>

@@ -8,18 +8,17 @@ Created on Wed Mar 25 22:48:38 2020
 import cv2
 import numpy as np
 
-img = cv2.imread("1.png", 0)
-ori = cv2.imread("Img1.png", 0)
+img = cv2.imread("Img0_mask.png", 0)
+ori = cv2.imread("Img0.png", 0)
 img[img>127] = 255
 img[img<127] = 0
 
-img = cv2.Canny(img, 30, 200)
+#img = cv2.Canny(img, 30, 200)
 
-image, contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+contours, hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
 #contours = cv2.findContours(img.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) 
 #cnts = cv2.findContours(img.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE) 
 
-print(len(contours[2]))
 print("Number of Contours found = " + str(len(contours))) 
 
 ori = cv2.drawContours(ori, contours, -1, (0,255,0), 3)
