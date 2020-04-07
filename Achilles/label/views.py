@@ -18,6 +18,8 @@ Unet_model_Road, graph_road = ps.load_Unet_road(os.path.join(settings.BASE_DIR, 
 Unet_model_Building, graph_building = ps.load_Unet_building(os.path.join(settings.BASE_DIR, "static", "models", "Massachusetts_Roads_and_Building_Dataset"),
                 os.path.join(settings.BASE_DIR, "static", "weights", "Massachusetts_Roads_and_Building_Dataset"))
 
+Unet_model_Car, graph_car = ps.load_Unet_car(os.path.join(settings.BASE_DIR, "static", "models", "Massachusetts_Roads_and_Building_Dataset"),
+                os.path.join(settings.BASE_DIR, "static", "weights", "ISPRS"))
 
 def index(request):
     if request.session.has_key('username'):
@@ -93,6 +95,13 @@ def labelme_response(request):
                 ps.save_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".csv"))
 
+            if(request.POST.get('type') == "car"):
+                ps.save_image(Unet_model_Car, graph_car,
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
+                ps.save_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + ".csv"))
+
             return render(request, "label/labelme_support_response.html", {'image_url': "/media/" + request.user.username + "_mask.png"})
     return redirect(request.META.get('HTTP_REFERER'))
 
@@ -109,12 +118,6 @@ def qgis_response(request):
             if myfile.name[len(myfile.name)-3:len(myfile.name)] != "png":
                 return render(request, 'label/qgis_support_app.html',{'is_not_file_valid':True})
 
-            """
-            form = ContactForm(request.POST)
-            if form.is_valid():
-                print(form.cleaned_data['type'])
-            print(request)
-            """
             if(request.POST.get('type') == "road"):
                 ps.save_image(Unet_model_Road, graph_road,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
@@ -124,6 +127,13 @@ def qgis_response(request):
 
             if(request.POST.get('type') == "building"):
                 ps.save_image(Unet_model_Building, graph_building,
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
+                ps.save_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + ".csv"))
+
+            if(request.POST.get('type') == "car"):
+                ps.save_image(Unet_model_Car, graph_car,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
                 ps.save_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),

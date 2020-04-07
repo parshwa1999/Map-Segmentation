@@ -34,6 +34,34 @@ def load_Unet_road(model_path, weights_path):
 
     return model, graph
 
+def load_Unet_car(model_path, weights_path):
+
+    def iou_coef(y_true, y_pred, smooth=1):
+        intersection = K.sum(K.abs(y_true * y_pred), axis=[1,2,3])
+        union = K.sum(y_true,[1,2,3])+K.sum(y_pred,[1,2,3])-intersection
+        iou = K.mean((intersection + smooth) / (union + smooth), axis=0)
+        return iou
+
+    def dice_coef(y_true, y_pred, smooth = 1):
+        y_true_f = K.flatten(y_true)
+        y_pred_f = K.flatten(y_pred)
+        intersection = K.sum(y_true_f * y_pred_f)
+        return (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
+
+    def soft_dice_loss(y_true, y_pred):
+        return 1-dice_coef(y_true, y_pred)
+
+    keras.losses.soft_dice_loss = soft_dice_loss
+    keras.metrics.iou_coef = iou_coef
+
+    from keras.models import load_model
+    model = load_model(model_path + '/UnetModel.h5', custom_objects={'loss': soft_dice_loss})
+    model.load_weights(weights_path + '/Final_unet_cars.h5')
+    graph = tf.get_default_graph()
+
+    return model, graph
+
+
 def load_Unet_building(model_path, weights_path):
 
     def iou_coef(y_true, y_pred, smooth=1):
