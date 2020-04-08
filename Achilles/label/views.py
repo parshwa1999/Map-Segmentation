@@ -40,11 +40,6 @@ def development_tracker_response(request):
             if myfile.name[len(myfile.name)-3:len(myfile.name)] != "png":
                 return render(request, 'label/qgis_support_app.html',{'is_not_file_valid':True})
 
-            ps.save_image(Unet_model_Road, graph,
-                os.path.join(settings.MEDIA_ROOT, request.user.username + "1.png"),
-                os.path.join(settings.MEDIA_ROOT, request.user.username + "1_mask.png"))
-
-
         if request.FILES['file2']:
             myfile = request.FILES['file2']
             fs = FileSystemStorage()
@@ -56,10 +51,29 @@ def development_tracker_response(request):
             if myfile.name[len(myfile.name)-3:len(myfile.name)] != "png":
                 return render(request, 'label/development_tracker_app.html',{'is_not_file_valid':True})
 
-            ps.save_image(Unet_model_Road, graph,
-                os.path.join(settings.MEDIA_ROOT, request.user.username + "2.png"),
-                os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
+            if(request.POST.get('type') == "road"):
+                ps.save_image(Unet_model_Road, graph_road,
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "1.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "1_mask.png"))
+                ps.save_image(Unet_model_Road, graph_road,
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
 
+            if(request.POST.get('type') == "building"):
+                ps.save_image(Unet_model_Building, graph_building,
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "1.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "1_mask.png"))
+                ps.save_image(Unet_model_Building, graph_building,
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
+
+            if(request.POST.get('type') == "car"):
+                ps.save_image(Unet_model_Car, graph_car,
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "1.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "1_mask.png"))
+                ps.save_image(Unet_model_Car, graph_car,
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
 
             return render(request, "label/development_tracker_response.html",
                 {'image_url1': "/media/" + request.user.username + "1_mask.png",
@@ -85,22 +99,22 @@ def labelme_response(request):
                 ps.save_image(Unet_model_Road, graph_road,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
-                ps.save_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),
-                    os.path.join(settings.MEDIA_ROOT, request.user.username + ".csv"))
+                ps.save_Json(os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
+                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template.json'), myfile.name)
 
             if(request.POST.get('type') == "building"):
                 ps.save_image(Unet_model_Building, graph_building,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
-                ps.save_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),
-                    os.path.join(settings.MEDIA_ROOT, request.user.username + ".csv"))
+                ps.save_Json(os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
+                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template.json'), myfile.name)
 
             if(request.POST.get('type') == "car"):
                 ps.save_image(Unet_model_Car, graph_car,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
-                ps.save_CSV(os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"),
-                    os.path.join(settings.MEDIA_ROOT, request.user.username + ".csv"))
+                ps.save_Json(os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
+                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template.json'), myfile.name)
 
             return render(request, "label/labelme_support_response.html", {'image_url': "/media/" + request.user.username + "_mask.png"})
     return redirect(request.META.get('HTTP_REFERER'))

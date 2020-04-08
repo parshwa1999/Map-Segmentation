@@ -15,19 +15,22 @@
 </div>
 {% endif %}
 
-<div class="container">
+<div class="container jumbotron" style="display: block;
+                                          margin-left: auto;
+                                          margin-right: auto;
+                                          width: 50%;">
   <form action={% url 'label:labelmeResponse' %} method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <select name="type" class="btn btn-dark">
+    <select name="type" class="btn btn-dark" style="margin: auto; display: table;">
       <option value="road">Roads</option>
       <option value="building">Buildings</option>
       <option value="car">Cars</option>
     </select> <br><br>
 
-    <input class="btn btn-dark" name="file" type="file"/>
+    <input class="btn btn-dark" name="file" type="file" style="margin: auto; display: table;"/>
     <br><br>
 
-    <button class="btn btn-dark active" type="submit">Upload</button>
+    <button class="btn btn-dark active" type="submit" style="margin: auto; display: table;">Upload</button>
   </form>
 </div>
 

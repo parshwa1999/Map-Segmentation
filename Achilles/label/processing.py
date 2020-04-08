@@ -133,7 +133,7 @@ def save_CSV(image_path, file_path):
 
     f.close()
 
-def save_Json(filename, template_path):
+def save_Json(filename, template_path, uploaded_filename):
     with open(template_path) as f:
     	data = json.load(f)
 
@@ -155,7 +155,7 @@ def save_Json(filename, template_path):
     	data['shapes'].append(added_points.copy())
     	del added_points
 
-    data['imagePath'] = filename
+    data['imagePath'] = uploaded_filename
 
     with open(filename[0:len(filename)-3]  + 'json', 'w') as json_file:
       json.dump(data, json_file)
