@@ -12,6 +12,9 @@ from django.core.files.storage import FileSystemStorage
 
 import label.processing as ps
 
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 Unet_model_Road, graph_road = ps.load_Unet_road(os.path.join(settings.BASE_DIR, "static", "models", "Massachusetts_Roads_and_Building_Dataset"),
                 os.path.join(settings.BASE_DIR, "static", "weights", "Massachusetts_Roads_and_Building_Dataset"))
 
@@ -58,6 +61,8 @@ def development_tracker_response(request):
                 ps.save_image(Unet_model_Road, graph_road,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "2.png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
+                difference = ps.difference_analyzier(os.path.join(settings.MEDIA_ROOT, request.user.username + "1_mask.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
 
             if(request.POST.get('type') == "building"):
                 ps.save_image(Unet_model_Building, graph_building,
@@ -65,6 +70,8 @@ def development_tracker_response(request):
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "1_mask.png"))
                 ps.save_image(Unet_model_Building, graph_building,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "2.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
+                difference = ps.difference_analyzier(os.path.join(settings.MEDIA_ROOT, request.user.username + "1_mask.png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
 
             if(request.POST.get('type') == "car"):
@@ -74,12 +81,14 @@ def development_tracker_response(request):
                 ps.save_image(Unet_model_Car, graph_car,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "2.png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
+                difference = ps.difference_analyzier(os.path.join(settings.MEDIA_ROOT, request.user.username + "1_mask.png"),
+                    os.path.join(settings.MEDIA_ROOT, request.user.username + "2_mask.png"))
 
             return render(request, "label/development_tracker_response.html",
                 {'image_url1': "/media/" + request.user.username + "1_mask.png",
-                'image_url2': "/media/" + request.user.username + "2_mask.png"})
+                'image_url2': "/media/" + request.user.username + "2_mask.png",
+                'difference': difference})
     return redirect(request.META.get('HTTP_REFERER'))
-
 
 def labelme_response(request):
     print("Wrong")
@@ -100,21 +109,21 @@ def labelme_response(request):
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
                 ps.save_Json(os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
-                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template.json'), myfile.name)
+                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template_road.json'), myfile.name)
 
             if(request.POST.get('type') == "building"):
                 ps.save_image(Unet_model_Building, graph_building,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
                 ps.save_Json(os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
-                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template.json'), myfile.name)
+                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template_building.json'), myfile.name)
 
             if(request.POST.get('type') == "car"):
                 ps.save_image(Unet_model_Car, graph_car,
                     os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
                     os.path.join(settings.MEDIA_ROOT, request.user.username + "_mask.png"))
                 ps.save_Json(os.path.join(settings.MEDIA_ROOT, request.user.username + ".png"),
-                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template.json'), myfile.name)
+                    os.path.join(settings.BASE_DIR, 'static', 'json', 'template_car.json'), myfile.name)
 
             return render(request, "label/labelme_support_response.html", {'image_url': "/media/" + request.user.username + "_mask.png"})
     return redirect(request.META.get('HTTP_REFERER'))

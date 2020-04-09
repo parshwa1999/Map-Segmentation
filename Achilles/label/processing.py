@@ -1,9 +1,12 @@
-from keras import backend as K
-import keras.losses, keras.metrics
-import tensorflow as tf
+import io
 import cv2
 import json
+import codecs
+import PIL.Image
 import numpy as np
+import tensorflow as tf
+from keras import backend as K
+import keras.losses, keras.metrics
 
 #Source: https://towardsdatascience.com/metrics-to-evaluate-your-semantic-segmentation-model-6bcb99639aa2
 
@@ -133,7 +136,17 @@ def save_CSV(image_path, file_path):
 
     f.close()
 
+def encodeImageForJson(image):
+    img_pil = PIL.Image.fromarray(image, mode='RGB')
+    f = io.BytesIO()
+    img_pil.save(f, format='PNG')
+    data = f.getvalue()
+    encData = codecs.encode(data, 'base64').decode()
+    encData = encData.replace('\n', '')
+    return encData
+
 def save_Json(filename, template_path, uploaded_filename):
+
     with open(template_path) as f:
     	data = json.load(f)
 
@@ -156,6 +169,13 @@ def save_Json(filename, template_path, uploaded_filename):
     	del added_points
 
     data['imagePath'] = uploaded_filename
+    data['imageData'] = encodeImageForJson(np.array(PIL.Image.open(filename)))
 
     with open(filename[0:len(filename)-3]  + 'json', 'w') as json_file:
       json.dump(data, json_file)
+
+def difference_analyzier(image_1, image_2):
+    sum1 = np.sum((cv2.imread(image_1, 0).flatten() > 127))
+    sum2 = np.sum((cv2.imread(image_2, 0).flatten() > 127))
+
+    return (sum2-sum1) * 100 / sum2
