@@ -181,23 +181,17 @@ def get_mask(request):
     file = open(os.path.join(settings.BASE_DIR, 'media', request.user.username + '_mask.png'), 'rb')
     return FileResponse(file, content_type="application/force-download")
 
+@login_required
 def development_tracker(request):
-    if request.session.has_key('username'):
         return render(request, "label/development_tracker_app.html")
-    else:
-        return render(request, "label/development_tracker_about.html")
 
+@login_required
 def qgis_support(request):
-    if request.session.has_key('username'):
         return render(request, "label/qgis_support_app.html")
-    else:
-        return render(request, "label/qgis_support_about.html")
 
+@login_required
 def labelme_support(request):
-    if request.session.has_key('username'):
         return render(request, "label/labelme_support_app.html")
-    else:
-        return render(request, "label/labelme_support_about.html")
 
 @login_required
 def homepage_welcome(request, username):
