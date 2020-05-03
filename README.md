@@ -29,7 +29,7 @@ such as Rural development. Also, we would provide additional support files to lo
 the detected classes as the layers in QGIS and improve segmentation parts through
 LabelMe.
 
-### HOW TO USE
+## HOW TO USE
 
 #### Install and setup python 3.6
   Run this piece of code only if you have any other version of python installed
@@ -97,9 +97,20 @@ LabelMe.
   ```
 let the entire server run.
 
-To visit application page click [here]: http://127.0.0.1:8000/label/ and to visit admin page click [here]: http://127.0.0.1:8000/admin/login/?next=/admin/
+To visit application page [click here](http://127.0.0.1:8000/label/) and to visit admin page [click here](http://127.0.0.1:8000/admin/login/?next=/admin/)
 
 Username: root
 Password: 11to1or11
 
 For further details one can refer my Report and Presentation
+
+## Results
+
+##### Roads
+![Image Not Found](https://github.com/parshwa1999/Map-Segmentation/blob/master/.images/Roads.png)
+
+##### Buildings
+![Image Not Found](https://github.com/parshwa1999/Map-Segmentation/blob/master/.images/Buildings.png)
+
+##### Cars
+![Image Not Found](https://github.com/parshwa1999/Map-Segmentation/blob/master/.images/Cars.png)
