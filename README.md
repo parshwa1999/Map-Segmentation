@@ -35,7 +35,7 @@ LabelMe.
   Run this piece of code only if you have any other version of python installed
   One can check his/her python version by typing
   ```sh
-  python --version
+  python3 --version
   ``` 
   on your terminal and if you get 
   ```
@@ -100,6 +100,7 @@ let the entire server run.
 To visit application page [click here](http://127.0.0.1:8000/label/) and to visit admin page [click here](http://127.0.0.1:8000/admin/login/?next=/admin/)
 
 Username: root
+
 Password: 11to1or11
 
 For further details one can refer my Report and Presentation
