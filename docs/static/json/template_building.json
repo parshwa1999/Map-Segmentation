@@ -1,0 +1,38 @@
+{
+  "version": "3.21.1",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "Building",
+      "line_color": null,
+      "fill_color": null,
+      "points": [],
+      "shape_type": "polygon",
+      "flags": {}
+    },
+    {
+      "label": "Building",
+      "line_color": null,
+      "fill_color": null,
+      "points": [],
+      "shape_type": "polygon",
+      "flags": {}
+    }
+  ],
+  "lineColor": [
+    0,
+    255,
+    0,
+    128
+  ],
+  "fillColor": [
+    255,
+    0,
+    0,
+    64
+  ],
+  "imagePath": "",
+  "imageData": "",
+  "imageHeight": 256,
+  "imageWidth": 256
+}
