@@ -228,7 +228,7 @@ def user_login(request):
                 return homepage_welcome(request, user)
 
         else:
-            return render(request, 'label/login.html', {'incorrect' : 'Incorrect Username or Password'})
+            return render(request, 'label/login.html')
 
     else:
         return render(request, 'label/login.html')
