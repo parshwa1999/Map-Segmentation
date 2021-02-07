@@ -7,7 +7,7 @@ astor==0.8.1
 cffi==1.14.0
 db==0.1.1
 db-sqlite3==0.0.1
-Django==3.0.4
+Django==3.0.7
 gast==0.3.3
 glob2==0.7
 google-pasta==0.2.0
