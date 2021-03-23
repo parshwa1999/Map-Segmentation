@@ -1,6 +1,6 @@
 # Map-Segmentation
 
-[![IMAGE ALT TEXT HERE](https://github.com/parshwa1999/Map-Segmentation/blob/master/.images/runningappdemo.png)](https://drive.google.com/file/d/1xERxOag1ENWiEQOLlojLYeoq23FdzGwY/view?usp=sharing)
+[![IMAGE ALT TEXT HERE](https://github.com/parshwa1999/Map-Segmentation/blob/master/.images/runningappdemo.png)](https://youtu.be/E4U3qZT1riA)
 #### Click on the image to watch the video
 
 ## Introduction
